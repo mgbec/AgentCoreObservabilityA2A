@@ -562,6 +562,7 @@ For multi-region:
 
 ## Resources
 
+- [Original Source: awslabs/agentcore-samples multi-agent-runtime](https://github.com/awslabs/agentcore-samples/tree/main/04-infrastructure-as-code/terraform/multi-agent-runtime) — This project is based on this reference implementation
 - [Amazon Bedrock AgentCore Documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html)
 - [Terraform AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 - [Agent-to-Agent Communication](https://docs.aws.amazon.com/bedrock/latest/userguide/agentcore-a2a.html)
