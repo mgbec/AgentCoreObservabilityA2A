@@ -24,6 +24,12 @@ Examples:
 import boto3
 import json
 import sys
+import io
+
+# Fix Unicode output on Windows
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
 
 def extract_region_from_arn(arn):

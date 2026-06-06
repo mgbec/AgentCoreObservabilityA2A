@@ -1,6 +1,5 @@
 from strands import Agent, tool
 from strands.models import BedrockModel
-from strands.telemetry import Tracer
 from typing import Dict, Any
 import boto3
 import json
@@ -9,10 +8,6 @@ import logging
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 
 app = BedrockAgentCoreApp()
-
-# Initialize Strands OTEL tracer for GenAI semantic conventions
-# This emits spans for LLM calls, tool usage, and agent reasoning
-tracer = Tracer()
 
 # Configure logging for A2A visibility
 logger = logging.getLogger("orchestrator")
@@ -153,7 +148,6 @@ def create_orchestrator_agent() -> Agent:
         tools=[call_specialist_agent, call_factchecker_agent],
         system_prompt=system_prompt,
         name="OrchestratorAgent",
-        tracer=tracer,
     )
 
 

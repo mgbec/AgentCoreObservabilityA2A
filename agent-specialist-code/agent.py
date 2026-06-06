@@ -1,13 +1,9 @@
 from strands import Agent
 from strands.models import BedrockModel
-from strands.telemetry import Tracer
 import os
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 
 app = BedrockAgentCoreApp()
-
-# Initialize Strands OTEL tracer for GenAI semantic conventions
-tracer = Tracer()
 
 
 def create_specialist_agent() -> Agent:
@@ -17,11 +13,10 @@ def create_specialist_agent() -> Agent:
     When asked questions, provide thorough, well-reasoned responses with specific details.
     Focus on accuracy and completeness in your answers."""
 
-    # Use explicit model to avoid subscription issues with cross-region profiles
     model_id = os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-5-20250929-v1:0")
     model = BedrockModel(model_id=model_id)
 
-    return Agent(model=model, system_prompt=system_prompt, name="SpecialistAgent", tracer=tracer)
+    return Agent(model=model, system_prompt=system_prompt, name="SpecialistAgent")
 
 
 @app.entrypoint
