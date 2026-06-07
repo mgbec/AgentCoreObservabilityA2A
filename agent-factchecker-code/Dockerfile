@@ -13,10 +13,7 @@ EXPOSE 8000
 
 COPY . .
 
-# OTEL configuration for ADOT auto-instrumentation
+# OTEL configuration - service name only; AgentCore configures the exporter
 ENV OTEL_SERVICE_NAME="factchecker-agent"
-ENV OTEL_PYTHON_DISABLED_INSTRUMENTATIONS="urllib3"
-ENV OTEL_METRICS_EXPORTER="none"
-ENV OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
 
 CMD ["opentelemetry-instrument", "python", "-m", "agent"]
