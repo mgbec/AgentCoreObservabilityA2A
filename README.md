@@ -1,6 +1,6 @@
 # Multi-Agent Runtime on Amazon Bedrock AgentCore (Terraform)
 
-This Terraform module deploys a multi-agent system using Amazon Bedrock AgentCore Runtime with Agent-to-Agent (A2A) communication capabilities.
+This Terraform module deploys a multi-agent system using Amazon Bedrock AgentCore Runtime with enhanced observability.
 
 ## Table of Contents
 
