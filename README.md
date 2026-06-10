@@ -46,75 +46,7 @@ This makes it ideal for:
 
 ## Architecture
 
-```mermaid
-graph TD
-    User[User / Test Script] -->|invoke_agent_runtime| Orch[Orchestrator Agent]
-    
-    Orch -->|call_specialist_agent| Spec[Specialist Agent]
-    Orch -->|call_factchecker_agent| FC[Fact Checker Agent]
-    
-    Spec -->|web_search| Tavily[Tavily Search API]
-    FC -->|web_search| Tavily
-    
-    Orch -->|ConverseStream| Bedrock[Amazon Bedrock LLM]
-    Spec -->|ConverseStream| Bedrock
-    FC -->|ConverseStream| Bedrock
-    
-    Orch -.->|OTEL spans| CW[CloudWatch / aws/spans]
-    Spec -.->|OTEL spans| CW
-    FC -.->|OTEL spans| CW
-    
-    subgraph AgentCore Runtime
-        Orch
-        Spec
-        FC
-    end
-    
-    subgraph Observability
-        CW
-        GenAI[GenAI Observability Dashboard]
-        CW --> GenAI
-    end
-```
-
-### System Components
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                      Amazon Bedrock AgentCore                         │
-│                                                                       │
-│  ┌──────────────────┐    InvokeAgentRuntime    ┌──────────────────┐  │
-│  │   Orchestrator    │ ──────────────────────► │    Specialist     │  │
-│  │                    │                          │                    │  │
-│  │  Tools:            │    InvokeAgentRuntime    │  Tools:            │  │
-│  │  • call_specialist │ ──────────────────────► │  • web_search      │  │
-│  │  • call_factcheck  │                          └──────────────────┘  │
-│  └──────────────────┘                                                 │
-│           │                                                           │
-│           │ InvokeAgentRuntime    ┌──────────────────┐               │
-│           └─────────────────────► │   Fact Checker    │               │
-│                                    │                    │               │
-│                                    │  Tools:            │               │
-│                                    │  • web_search      │               │
-│                                    └──────────────────┘               │
-│                                                                       │
-└───────────────────────────────┬───────────────────────────────────────┘
-                                │
-                    ┌───────────┴───────────┐
-                    ▼                       ▼
-         ┌──────────────────┐   ┌──────────────────┐
-         │  Amazon Bedrock   │   │  Tavily Search   │
-         │  (Claude Sonnet)  │   │  API (web data)  │
-         └──────────────────┘   └──────────────────┘
-                    │
-                    ▼
-         ┌──────────────────────────────────────────┐
-         │           CloudWatch                      │
-         │  • Application logs (A2A payloads)        │
-         │  • aws/spans (OTEL distributed traces)    │
-         │  • GenAI Observability dashboard          │
-         └──────────────────────────────────────────┘
-```
+![Multi-Agent Architecture](architecture.png)
 
 ### System Components
 
